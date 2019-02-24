@@ -8,6 +8,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        textTheme: TextTheme(
+          body1: TextStyle(
+            // fontFamily: 'Lato',
+          ),
+        ),
         primaryColor: Colors.blue,
       ),
       routes: {
