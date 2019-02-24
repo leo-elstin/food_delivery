@@ -8,9 +8,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        brightness: Brightness.light,
         textTheme: TextTheme(
           body1: TextStyle(
-            // fontFamily: 'Lato',
+            fontFamily: 'Lato',
           ),
         ),
         primaryColor: Colors.blue,

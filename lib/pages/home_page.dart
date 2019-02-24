@@ -6,10 +6,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(55, 0, 179, 1,),
-        title: Text('Home'),
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        title: Text(
+          'Food Kart',
+          style: TextStyle(color: Colors.black),
+        ),
         actions: <Widget>[
-          _buildCartWidget(context),
+          _buildCartWidget(context,)
         ],
       ),
       body: ListView(
