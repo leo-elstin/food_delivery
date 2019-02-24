@@ -8,11 +8,17 @@ class FoodListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(hotel.name),
-        centerTitle: true,
+      body: Container(
+        child: ListView(
+          children: <Widget>[
+            AppBar(
+              elevation: 0,
+              backgroundColor: Colors.black12,
+              title: Text(hotel.name),
+            )
+          ],
+        ),
       ),
-      body: Center(),
     );
   }
 }

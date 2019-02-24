@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/hotel_model.dart';
+import 'package:food_delivery/pages/food_list_page.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,7 +12,7 @@ class HotelList extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) return const Text('Loading...');
         final int messageCount = snapshot.data.documents.length;
-        
+
         return ListView.builder(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
@@ -21,30 +22,29 @@ class HotelList extends StatelessWidget {
             // Map hotelMap = jsonDecode(document.data);
             var data = Hotel.fromJson(document.data);
             print(data.name);
-            return _buildHotelCard(
-                context,
-                data.name,
-                document['image'],
-                document['type'],
-                document['waitingTime'],
-                document['rating'],
-                document['ratingCount']);
+            return _buildHotelCard(context, hotel: data);
           },
         );
       },
     );
   }
 
-  Widget _buildHotelCard(BuildContext context, name, image, type, waitingTime,
-      rating, ratingCount) {
-    return GestureDetector(
-      onTap: () => {},
-      child: Container(
-        height: 250,
-        width: MediaQuery.of(context).size.width * .75,
-        padding: EdgeInsets.only(left: 8, right: 8),
-        child: Card(
-          elevation: 1,
+  Widget _buildHotelCard(BuildContext context, {hotel: Hotel}) {
+    return Container(
+      height: 250,
+      width: MediaQuery.of(context).size.width * .75,
+      padding: EdgeInsets.only(left: 8, right: 8),
+      child: Card(
+        elevation: 1,
+        child: InkWell(
+          splashColor: Colors.black26,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => FoodListPage(hotel),
+              ),
+            );
+          },
           child: Column(
             children: <Widget>[
               Container(
@@ -52,7 +52,7 @@ class HotelList extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(image),
+                    image: NetworkImage(hotel.image),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
@@ -69,7 +69,7 @@ class HotelList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      name,
+                      hotel.name,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.normal,
@@ -79,7 +79,7 @@ class HotelList extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      type,
+                      hotel.type,
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 12,
@@ -92,9 +92,11 @@ class HotelList extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Text(
-                          '${waitingTime.toString()} Mins',
+                          '${hotel.waitingTime.toString()} Mins',
                           style: TextStyle(
-                             color: waitingTime < 26 ?  Colors.black : Colors.red,
+                              color: hotel.waitingTime < 26
+                                  ? Colors.black
+                                  : Colors.red,
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Lato'),
@@ -103,7 +105,7 @@ class HotelList extends StatelessWidget {
                           width: 20,
                         ),
                         Text(
-                          rating.toString(),
+                          hotel.rating.toString(),
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -118,7 +120,7 @@ class HotelList extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          ' ($ratingCount+)',
+                          ' (${hotel.ratingCount}+)',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
