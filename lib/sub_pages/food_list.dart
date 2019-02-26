@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/food_model.dart';
+import 'package:food_delivery/adapter/food_adapter.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,19 +19,18 @@ class FoodList extends StatelessWidget {
           return Center(
             child: RefreshProgressIndicator(),
           );
-        final int messageCount = snapshot.data.documents.length;
-        return ListView.builder(
+        final int count = snapshot.data.documents.length;
+        return count > 0 ? ListView.builder(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
-          itemCount: messageCount,
+          itemCount: count,
           itemBuilder: (_, int index) {
             final DocumentSnapshot document = snapshot.data.documents[index];
 
-            var data = Food.fromJson(document.data);
-            print(data..title);
-            return (Text('data'));
+            var product = Food.fromJson(document.data);
+            return FoodAdapter(product);
           },
-        );
+        ) :Center(child: Text('No items found.'),);
       },
     );
   }

@@ -9,12 +9,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,
+        buttonColor: Colors.green,
         textTheme: TextTheme(
           body1: TextStyle(
             fontFamily: 'Lato',
           ),
         ),
-        primaryColor: Colors.blue,
+        primaryColor: Colors.deepPurple,
       ),
       routes: {
         '/': (BuildContext context) => HomePage(),
