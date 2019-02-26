@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/food_model.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 
 class FoodAdapter extends StatelessWidget {
   final Food product;
@@ -93,91 +95,98 @@ class FoodAdapter extends StatelessWidget {
   }
 
   void _showBottomSheet(context, {Food food}) {
-    int count = 0 ;
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
-          return Container(
-            margin: EdgeInsets.all(10),
-            child: new Wrap(
-              children: <Widget>[
-                _buildCardForSheet(food),
-                Container(
-                  margin: EdgeInsets.only(left: 25, top: 10),
-                  child: Text('Quantity'),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 25, top: 5, right: 25),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 25),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.remove_circle,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {},
+          return ScopedModelDescendant<CartScopedModel>(
+              builder: (context, child, model) => Container(
+                    margin: EdgeInsets.all(10),
+                    child: new Wrap(
+                      children: <Widget>[
+                        _buildCardForSheet(food),
+                        Container(
+                          margin: EdgeInsets.only(left: 25, top: 10),
+                          child: Text('Quantity'),
                         ),
-                      ),
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.blueGrey,
-                            width: 1,
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.only(left: 25, top: 5, right: 25),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 25),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.remove_circle,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    model.decrement();
+                                  },
+                                ),
+                              ),
+                              DecoratedBox(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.blueGrey,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  padding: EdgeInsets.all(8),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '${model.counter}',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 25),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.add_box,
+                                    color: Colors.green,
+                                  ),
+                                  onPressed: () {
+                                    model.increment();
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        child: Container(
-                          width: 35,
-                          height: 35,
-                          padding: EdgeInsets.all(8),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              '1',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.normal),
+                        Align(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 16, bottom: 32),
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              )),
+                              color: Theme.of(context).buttonColor,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "Add to Cart",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                        Container(
-                        margin: EdgeInsets.only(left: 25),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.add_box,
-                            color: Colors.green,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  child: Container(
-                    margin: EdgeInsets.only(right: 16, bottom: 32),
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                        Radius.circular(8),
-                      )),
-                      color: Theme.of(context).buttonColor,
-                      onPressed: () {},
-                      child: Text(
-                        "Add to Cart",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                          alignment: Alignment.centerRight,
+                        )
+                      ],
                     ),
-                  ),
-                  alignment: Alignment.centerRight,
-                )
-              ],
-            ),
-          );
+                  ));
         });
   }
 

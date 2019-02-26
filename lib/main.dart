@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.light,
-        buttonColor: Colors.green,
-        textTheme: TextTheme(
-          body1: TextStyle(
-            fontFamily: 'Lato',
+    return ScopedModel(
+      model: CartScopedModel(),
+      child: MaterialApp(
+        theme: ThemeData(
+          brightness: Brightness.light,
+          buttonColor: Colors.green,
+          textTheme: TextTheme(
+            body1: TextStyle(
+              fontFamily: 'Lato',
+            ),
           ),
+          primaryColor: Colors.deepPurple,
         ),
-        primaryColor: Colors.deepPurple,
+        routes: {
+          '/': (BuildContext context) => HomePage(),
+        },
       ),
-      routes: {
-        '/': (BuildContext context) => HomePage(),
-      },
     );
   }
 }
