@@ -10,9 +10,8 @@ class HotelList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('hotel_list').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (!snapshot.hasData) return const Text('Loading...');
+        if (!snapshot.hasData) return Text('Loading...');
         final int messageCount = snapshot.data.documents.length;
-
         return ListView.builder(
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),

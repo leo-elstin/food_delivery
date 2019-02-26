@@ -1,5 +1,5 @@
 class Hotel{
-  int  id;
+  String  id;
   String name ;
   String image;
   String type;

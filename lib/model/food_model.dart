@@ -2,7 +2,7 @@ class Food{
   int id;
   String title;
   String description;
-  double price;
+  dynamic price;
   String image = '';
 
   Food(this.id, this.title,this.description,this.price, this.image);

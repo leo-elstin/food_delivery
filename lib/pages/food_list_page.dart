@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/hotel_model.dart';
+import 'package:food_delivery/sub_pages/food_list.dart';
 
 class FoodListPage extends StatelessWidget {
   final Hotel hotel;
@@ -23,6 +24,7 @@ class FoodListPage extends StatelessWidget {
           _buildHeaderLayout(
             context,
           ),
+          FoodList(hotel.id)
         ],
       ),
     );
