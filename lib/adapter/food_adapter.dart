@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/food_model.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:food_delivery/pages/cart_page.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 
 class FoodAdapter extends StatelessWidget {

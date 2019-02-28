@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/hotel_model.dart';
 import 'package:food_delivery/sub_pages/food_list.dart';
+//Firebase Db
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodListPage extends StatelessWidget {
   final Hotel hotel;
@@ -24,7 +26,45 @@ class FoodListPage extends StatelessWidget {
           _buildHeaderLayout(
             context,
           ),
-          FoodList(hotel.id)
+          StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection('title_list').snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData)
+                return Center(
+                  child: RefreshProgressIndicator(),
+                );
+              final int count = snapshot.data.documents.length;
+              return count > 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: count,
+                      itemBuilder: (_, int index) {
+                        final DocumentSnapshot document =
+                            snapshot.data.documents[index];
+                        return Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  document.data['title'],
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ),
+                            FoodList(hotel.id),
+                          ],
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text('No items found.'),
+                    );
+            },
+          ),
         ],
       ),
     );

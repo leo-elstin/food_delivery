@@ -13,6 +13,7 @@ class FoodList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection('hotel_list/$_id/food_list/')
+          .where('isVeg',isEqualTo: false)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData)
