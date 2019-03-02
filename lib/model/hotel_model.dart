@@ -1,5 +1,6 @@
 class Hotel{
   String  id;
+  int  hotel_id;
   String name ;
   String image;
   String type;
@@ -7,12 +8,13 @@ class Hotel{
   String rating;
   String ratingCount;
 
-  Hotel(this.name,this.image,this.type, this.waitingTime,this.rating,this.ratingCount);
+  Hotel(this.name,this.id,this.image,this.type, this.waitingTime,this.rating,this.ratingCount);
 
     Hotel.fromJson(Map<String, dynamic> json)
       : name = json['name'],
         type = json['type'],
         id = json['id'],
+        hotel_id = json['hotel_id'],
         waitingTime = json['waitingTime'],
         rating = json['rating'],
         ratingCount = json['ratingCount'],
@@ -23,6 +25,7 @@ class Hotel{
       'name': name,
       'image': image,
       'id': id,
+      'hotel_id': hotel_id,
       'type': type,
       'waitingTime': waitingTime,
       'rating': rating,

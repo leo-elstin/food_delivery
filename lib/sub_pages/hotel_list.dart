@@ -20,7 +20,7 @@ class HotelList extends StatelessWidget {
             final DocumentSnapshot document = snapshot.data.documents[index];
             // Map hotelMap = jsonDecode(document.data);
             var data = Hotel.fromJson(document.data);
-            print(data.name);
+            // print(data.toJson());
             return _buildHotelCard(context, hotel: data);
           },
         );

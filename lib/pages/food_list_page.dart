@@ -39,6 +39,7 @@ class FoodListPage extends StatelessWidget {
                   child: RefreshProgressIndicator(),
                 );
               final int count = snapshot.data.documents.length;
+              
               return count > 0
                   ? ListView.builder(
                       shrinkWrap: true,
@@ -59,7 +60,7 @@ class FoodListPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            FoodList(hotel.id),
+                            FoodList(hotel.hotel_id,document.data['id']),
                           ],
                         );
                       },

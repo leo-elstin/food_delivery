@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/food_model.dart';
 import 'package:food_delivery/adapter/food_adapter.dart';
+import 'package:food_delivery/model/hotel_model.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodList extends StatelessWidget {
-  final String _id;
-  FoodList(this._id);
+  final int _id;
+  final int _catId;
+  FoodList(this._id, this._catId);
 
   @override
   Widget build(BuildContext context) {
+    print(_id);
+    print(_catId);
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
-          .collection('hotel_list/$_id/food_list/')
-          .where('isVeg',isEqualTo: false)
+          .collection('food_list')
+          // .where('tags',arrayContains: 'biriyani')
+          .where('hotel_id',isEqualTo: _id)
+          .where('category_id',isEqualTo: _catId)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData)
@@ -27,7 +33,6 @@ class FoodList extends StatelessWidget {
           itemCount: count,
           itemBuilder: (_, int index) {
             final DocumentSnapshot document = snapshot.data.documents[index];
-
             var product = Food.fromJson(document.data);
             return FoodAdapter(product);
           },

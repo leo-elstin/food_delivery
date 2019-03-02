@@ -1,5 +1,5 @@
 class Food{
-  int id;
+  dynamic id;
   int count;
   String title;
   String description;
