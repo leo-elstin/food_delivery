@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/pages/auth_page.dart';
 import 'pages/home_page.dart';
 import 'pages/cart_page.dart';
 import 'package:scoped_model/scoped_model.dart';
