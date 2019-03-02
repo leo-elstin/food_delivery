@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
+import 'pages/cart_page.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (BuildContext context) => HomePage(),
+          '/cart': (BuildContext context) => CartPage(),
         },
       ),
     );
