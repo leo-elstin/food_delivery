@@ -23,8 +23,8 @@ class FoodAdapter extends StatelessWidget {
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 margin: EdgeInsets.only(left: 16, top: 5, right: 5, bottom: 5),
-                height: 100,
-                width: 100,
+                height: 75,
+                width: 75,
               ),
               Flexible(
                 child: Column(
@@ -32,18 +32,18 @@ class FoodAdapter extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(4),
                       child: Text(
                         product.title,
                         style: TextStyle(
                             color: Colors.black54,
                             fontFamily: 'Lato',
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(4),
                       child: Text(
                         product.description,
                         overflow: TextOverflow.ellipsis,

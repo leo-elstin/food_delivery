@@ -13,12 +13,16 @@ class FoodListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         brightness: Brightness.light,
         backgroundColor: Colors.white,
         title: Text(
           hotel.name,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
       ),
       body: ListView(
@@ -27,7 +31,7 @@ class FoodListPage extends StatelessWidget {
             context,
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('title_list').snapshots(),
+            stream: Firestore.instance.collection('hotel_list/${hotel.id}/food_categories').snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData)
