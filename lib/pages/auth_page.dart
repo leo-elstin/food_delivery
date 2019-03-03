@@ -1,18 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class PhoneSignInSection extends StatefulWidget {
-  PhoneSignInSection();
+class AuthPage extends StatefulWidget {
+  AuthPage();
 
   // final ScaffoldState _scaffold;
   @override
   State<StatefulWidget> createState() => _PhoneSignInSectionState();
 }
 
-class _PhoneSignInSectionState extends State<PhoneSignInSection> {
+class _PhoneSignInSectionState extends State<AuthPage> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
@@ -21,7 +20,13 @@ class _PhoneSignInSectionState extends State<PhoneSignInSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( body: Column(
+    return Scaffold(
+      body: _buildPhoneAuthWidget(),
+    );
+  }
+
+  Widget _buildPhoneAuthWidget() {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
@@ -72,7 +77,7 @@ class _PhoneSignInSectionState extends State<PhoneSignInSection> {
           ),
         )
       ],
-    ),);
+    );
   }
 
   // Exmaple code of how to veify phone number
@@ -136,4 +141,3 @@ class _PhoneSignInSectionState extends State<PhoneSignInSection> {
     });
   }
 }
-
