@@ -4,46 +4,73 @@ import 'package:firebase_auth/firebase_auth.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class AuthPage extends StatefulWidget {
-  AuthPage();
+  final int _phoneNumber;
+  AuthPage(this._phoneNumber);
 
   // final ScaffoldState _scaffold;
   @override
-  State<StatefulWidget> createState() => _PhoneSignInSectionState();
+  State<StatefulWidget> createState() => _PhoneSignInSectionState(_phoneNumber);
 }
 
 class _PhoneSignInSectionState extends State<AuthPage> {
+  final _phoneNumber ;
+  _PhoneSignInSectionState(this._phoneNumber);
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
   String _message = '';
   String _verificationId;
 
+  bool verificationSent =false;
+
+  @override
+  void initState() {
+    print('is loading');
+      // _verifyPhoneNumber();
+    super.initState();
+   
+  }
+
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
+          appBar: AppBar(
+              elevation: 2,
+              iconTheme: IconThemeData(color: Colors.black),
+              brightness: Brightness.light,
+              backgroundColor: Colors.white,
+              title: Text(
+                'Verify',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
       body: _buildPhoneAuthWidget(),
     );
   }
 
   Widget _buildPhoneAuthWidget() {
     return Column(
+      // mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+         !verificationSent? LinearProgressIndicator() :Container(),
         Container(
           child: const Text('Test sign in with phone number'),
           padding: const EdgeInsets.all(16),
           alignment: Alignment.center,
         ),
-        TextFormField(
-          controller: _phoneNumberController,
-          decoration:
-              InputDecoration(labelText: 'Phone number (+x xxx-xxx-xxxx)'),
-          validator: (String value) {
-            if (value.isEmpty) {
-              return 'Phone number (+x xxx-xxx-xxxx)';
-            }
-          },
-        ),
+       
+        // TextFormField(
+        //   controller: _phoneNumberController,
+        //   decoration:
+        //       InputDecoration(labelText: 'Phone number (+x xxx-xxx-xxxx)'),
+        //   validator: (String value) {
+        //     if (value.isEmpty) {
+        //       return 'Phone number (+x xxx-xxx-xxxx)';
+        //     }
+        //   },
+        // ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           alignment: Alignment.center,
@@ -75,9 +102,16 @@ class _PhoneSignInSectionState extends State<AuthPage> {
             _message,
             style: TextStyle(color: Colors.red),
           ),
-        )
+        ),
+        // Builder(
+        //   builder: (bs){
+             
+        //     return Container();
+        //   } ,
+        // )
       ],
     );
+     
   }
 
   // Exmaple code of how to veify phone number
@@ -115,7 +149,7 @@ class _PhoneSignInSectionState extends State<AuthPage> {
     };
 
     await _auth.verifyPhoneNumber(
-        phoneNumber: _phoneNumberController.text,
+        phoneNumber: '+91{_phoneNumber]',
         timeout: const Duration(seconds: 5),
         verificationCompleted: verificationCompleted,
         verificationFailed: verificationFailed,
