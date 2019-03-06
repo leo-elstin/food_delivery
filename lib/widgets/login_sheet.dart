@@ -4,15 +4,23 @@ import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 import 'package:food_delivery/pages/auth_page.dart';
 
 void openLoginSheet(BuildContext context) {
+  final TextEditingController _phoneNumberController = TextEditingController();
   showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        int _phoneNumber;
-        void openAuthPage({int phoneNumber, CartScopedModel model}) {
-          model.setLogin(enable :false);
-          Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AuthPage(_phoneNumber)));
+        int _phoneNumber = 0;
+        void openAuthPage(int phoneNumber, {CartScopedModel model}) {
+          model.setLogin(enable: false);
+          // Navigator.pop(context);
+          print(_phoneNumberController.text);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AuthPage(
+                    int.parse(_phoneNumberController.text),
+                  ),
+            ),
+          );
         }
 
         return ScopedModelDescendant<CartScopedModel>(
@@ -54,8 +62,11 @@ void openLoginSheet(BuildContext context) {
                     alignment: Alignment.centerLeft,
                     margin: EdgeInsets.only(left: 32, bottom: 32, right: 32),
                     child: TextField(
+                      controller: _phoneNumberController,
                       onChanged: (value) {
                         _phoneNumber = int.parse(value);
+
+                        // print(_phoneNumber);
 
                         if (value.length == 10) {
                           FocusScope.of(context).requestFocus(new FocusNode());
@@ -89,7 +100,9 @@ void openLoginSheet(BuildContext context) {
                   width: double.infinity,
                   child: RaisedButton(
                     onPressed: model.loginEnabled
-                        ? () => openAuthPage(phoneNumber: _phoneNumber, model: model)
+                        ? () {
+                            openAuthPage(_phoneNumber, model: model);
+                          }
                         : null,
                     child: Text(
                       'Login',

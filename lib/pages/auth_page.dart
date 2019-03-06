@@ -13,7 +13,7 @@ class AuthPage extends StatefulWidget {
 }
 
 class _PhoneSignInSectionState extends State<AuthPage> {
-  final _phoneNumber ;
+  final int _phoneNumber ;
   _PhoneSignInSectionState(this._phoneNumber);
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
@@ -26,7 +26,7 @@ class _PhoneSignInSectionState extends State<AuthPage> {
   @override
   void initState() {
     print('is loading');
-      // _verifyPhoneNumber();
+      _verifyPhoneNumber();
     super.initState();
    
   }
@@ -76,7 +76,9 @@ class _PhoneSignInSectionState extends State<AuthPage> {
           alignment: Alignment.center,
           child: RaisedButton(
             onPressed: () async {
-              _verifyPhoneNumber();
+              print(_phoneNumberController.text);
+              print(_phoneNumber);
+              // _verifyPhoneNumber();
             },
             child: const Text('Verify phone number'),
           ),
