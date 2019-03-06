@@ -93,7 +93,7 @@ class HotelList extends StatelessWidget {
                         Text(
                           '${hotel.waitingTime.toString()} Mins',
                           style: TextStyle(
-                              color: hotel.waitingTime < 26
+                              color: hotel.waitingTime < 25
                                   ? Colors.black
                                   : Colors.red,
                               fontSize: 14,
@@ -104,7 +104,7 @@ class HotelList extends StatelessWidget {
                           width: 20,
                         ),
                         Text(
-                          hotel.rating.toString(),
+                          hotel.rating != null ? '${hotel.rating}' : 'N/A',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -119,7 +119,7 @@ class HotelList extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          ' (${hotel.ratingCount}+)',
+                          hotel.ratingCount != null ? ' (${hotel.ratingCount}+)' : '',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
