@@ -13,88 +13,84 @@ class AuthPage extends StatefulWidget {
 }
 
 class _PhoneSignInSectionState extends State<AuthPage> {
-  final int _phoneNumber ;
+  final int _phoneNumber;
   _PhoneSignInSectionState(this._phoneNumber);
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _smsController = TextEditingController();
 
+  String _title = 'Please wait while we verify your mobile number.';
   String _message = '';
   String _verificationId;
 
-  bool verificationSent =false;
+  bool _verificationSent = false;
 
   @override
   void initState() {
-    print('is loading');
-      _verifyPhoneNumber();
+    _verifyPhoneNumber();
     super.initState();
-   
   }
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-          appBar: AppBar(
-              elevation: 2,
-              iconTheme: IconThemeData(color: Colors.black),
-              brightness: Brightness.light,
-              backgroundColor: Colors.white,
-              title: Text(
-                'Verify',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
+      appBar: AppBar(
+        elevation: 2,
+        iconTheme: IconThemeData(color: Colors.black),
+        brightness: Brightness.light,
+        backgroundColor: Colors.white,
+        title: Text(
+          'Verify',
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
       body: _buildPhoneAuthWidget(),
     );
   }
 
   Widget _buildPhoneAuthWidget() {
-    return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
       children: <Widget>[
-         !verificationSent? LinearProgressIndicator() :Container(),
+        !_verificationSent ? LinearProgressIndicator() : Container(),
         Container(
-          child: const Text('Test sign in with phone number'),
-          padding: const EdgeInsets.all(16),
+          margin: EdgeInsets.only(top: 50, left: 50, right: 50),
+          child: Text(
+            _title,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18, fontFamily: 'Lato'),
+          ),
+          padding: EdgeInsets.all(16),
           alignment: Alignment.center,
         ),
-       
-        // TextFormField(
-        //   controller: _phoneNumberController,
-        //   decoration:
-        //       InputDecoration(labelText: 'Phone number (+x xxx-xxx-xxxx)'),
-        //   validator: (String value) {
-        //     if (value.isEmpty) {
-        //       return 'Phone number (+x xxx-xxx-xxxx)';
-        //     }
-        //   },
-        // ),
+        _verificationSent ? Icon(Icons.check) : Container(),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          alignment: Alignment.center,
-          child: RaisedButton(
-            onPressed: () async {
-              print(_phoneNumberController.text);
-              print(_phoneNumber);
-              // _verifyPhoneNumber();
-            },
-            child: const Text('Verify phone number'),
+          margin: EdgeInsets.all(32),
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+            maxLength: 6,
+            style: TextStyle(fontSize: 18),
+            controller: _smsController,
+            decoration: InputDecoration(
+              
+              border: OutlineInputBorder(),
+              labelText: 'Verification code',
+            ),
           ),
         ),
-        TextField(
-          controller: _smsController,
-          decoration: InputDecoration(labelText: 'Verification code'),
-        ),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          alignment: Alignment.center,
-          child: RaisedButton(
-            onPressed: () async {
-              _signInWithPhoneNumber();
-            },
-            child: const Text('Sign in with phone number'),
+          margin: EdgeInsets.only(left : 32, right: 32),
+          child: SizedBox(
+            height: 45,
+            width: MediaQuery.of(context).size.width,
+            child: RaisedButton(
+              onPressed: () async {
+                _signInWithPhoneNumber();
+              },
+              child: const Text('Verify Now', style: TextStyle(
+                color: Colors.white,
+                fontSize: 18
+              ),),
+            ),
           ),
         ),
         Container(
@@ -105,15 +101,8 @@ class _PhoneSignInSectionState extends State<AuthPage> {
             style: TextStyle(color: Colors.red),
           ),
         ),
-        // Builder(
-        //   builder: (bs){
-             
-        //     return Container();
-        //   } ,
-        // )
       ],
     );
-     
   }
 
   // Exmaple code of how to veify phone number
@@ -138,10 +127,9 @@ class _PhoneSignInSectionState extends State<AuthPage> {
 
     final PhoneCodeSent codeSent =
         (String verificationId, [int forceResendingToken]) async {
-      // Scaffold.of(context).showSnackBar(SnackBar(
-      //   content:
-      //       const Text('Please check your phone for the verification code.'),
-      // ));
+      setState(() {
+        _verificationSent = true;
+      });
       _verificationId = verificationId;
     };
 
@@ -150,8 +138,10 @@ class _PhoneSignInSectionState extends State<AuthPage> {
       _verificationId = verificationId;
     };
 
+    // print('+91{$_phoneNumber}');
+
     await _auth.verifyPhoneNumber(
-        phoneNumber: '+91{_phoneNumber]',
+        phoneNumber: '+91$_phoneNumber',
         timeout: const Duration(seconds: 5),
         verificationCompleted: verificationCompleted,
         verificationFailed: verificationFailed,
