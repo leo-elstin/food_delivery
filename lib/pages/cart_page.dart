@@ -31,29 +31,32 @@ class CartPage extends StatelessWidget {
             ),
             body: Stack(
               children: <Widget>[
-                ListView.builder(
-                  itemBuilder: (buildcontext, i) {
-                    return Text('${model.cartItems[i].count}');
-                  },
-                  itemCount: model.cartItems.length,
-                ),
+                model.cartItems.length != 0
+                    ? ListView.builder(
+                        itemBuilder: (buildcontext, i) {
+                          return Text('${model.cartItems[i].count}');
+                        },
+                        itemCount: model.cartItems.length,
+                      )
+                    : Center(
+                        child: Text('Your cart is empty',
+                            style: TextStyle(fontSize: 18)),
+                      ),
                 Align(
                   child: Container(
                     // decoration: BoxDecoration(),
-                    height: 1205,
+                     padding: EdgeInsets.all(16),
+                    height: 100,
                     width: double.infinity,
                     color: Colors.white,
-                    child: Card(
-                      elevation: 8,
-                      margin: EdgeInsets.only(bottom :32, left: 32, right: 32, ),
-                      child: Stack(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              margin: EdgeInsets.only(right: 14, bottom :8),
-                               child :  FlatButton(
-                                 color: Colors.green,
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            margin: EdgeInsets.only(right: 14, bottom :8),
+                            child: OutlineButton(
+                              color: Colors.green,
                               onPressed: () async {
                                 FirebaseUser user = await _auth.currentUser();
                                 if (user == null)
@@ -62,11 +65,14 @@ class CartPage extends StatelessWidget {
                                   print('logged in');
                                 }
                               },
-                              child: Text('Checkout', style: TextStyle(color: Colors.white),),
-                            ),),
+                              child: Text(
+                                'Checkout',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   alignment: Alignment.bottomCenter,
