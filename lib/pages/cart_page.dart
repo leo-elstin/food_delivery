@@ -40,7 +40,7 @@ class CartPage extends StatelessWidget {
                 Align(
                   child: Container(
                     // decoration: BoxDecoration(),
-                    height: 120,
+                    height: 1205,
                     width: double.infinity,
                     color: Colors.white,
                     child: Card(

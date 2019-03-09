@@ -49,16 +49,17 @@ class HotelList extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 150,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(hotel.image),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                  ),
-                ),
+                // decoration: BoxDecoration(
+                //   shape:BoxShape.circle,
+                //   image: DecorationImage(
+                //     image: NetworkImage(hotel.image),
+                //     fit: BoxFit.cover,
+                //   ),
+                //   borderRadius: BorderRadius.only(
+                //     topLeft: Radius.circular(4),
+                //     topRight: Radius.circular(4),
+                //   ),
+                // ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
