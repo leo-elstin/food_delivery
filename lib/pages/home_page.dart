@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
-                Navigator.pushNamed(context, '/cart');
+                Navigator.pushNamed(context, '/map');
               },
             ),
             Container(
