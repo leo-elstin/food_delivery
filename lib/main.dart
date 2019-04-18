@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (BuildContext context) => HomePage(),
           '/cart': (BuildContext context) => CartPage(),
-          '/map': (BuildContext context) => MapPage(),
+          // '/map': (BuildContext context) => MapPage(),
         },
       ),
     );
