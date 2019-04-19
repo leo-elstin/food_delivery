@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/hotel_model.dart';
 import 'package:food_delivery/sub_pages/food_list.dart';
+import 'package:food_delivery/hotel_module/add_food.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,6 +12,16 @@ class FoodListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => AddFoodPage(hotel),
+              ),
+            );
+        },
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(
