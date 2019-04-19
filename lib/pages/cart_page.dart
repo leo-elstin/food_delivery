@@ -31,8 +31,6 @@ class CartPage extends StatelessWidget {
             ),
             body: Stack(
               children: <Widget>[
-                ListView(
-                  children: <Widget>[
                     // Container(
                     //   margin: EdgeInsets.only(left: 8, top: 16),
                     //   child: Text(
@@ -49,17 +47,16 @@ class CartPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
                             itemBuilder: (buildcontext, i) {
-                              var product = model.cartItems[i];
-                              return _buildCartAdapter(product);
+                              
+                              return _buildCartAdapter(i, context, model);
                             },
                             itemCount: model.cartItems.length,
                           )
-                        : Center(
+                        : Align(
+                          alignment: Alignment.center,
                             child: Text('Your cart is empty',
                                 style: TextStyle(fontSize: 18)),
                           ),
-                  ],
-                ),
                 Align(
                   child: Container(
                     // decoration: BoxDecoration(),
@@ -99,7 +96,9 @@ class CartPage extends StatelessWidget {
             )));
   }
 
-  Widget _buildCartAdapter(Food product) {
+  Widget _buildCartAdapter(int index, BuildContext context, CartScopedModel model) {
+    var width = MediaQuery.of(context).size.width / 1.75;
+    var product = model.cartItems[index];
     return InkWell(
       // onTap: () => _showBottomSheet(context, food: product),
       child: Column(
@@ -118,7 +117,9 @@ class CartPage extends StatelessWidget {
               //   height: 50,
               //   width: 50,
               // ),
-              Flexible(
+              Container(
+                padding: EdgeInsets.all(8),
+                width: width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -128,7 +129,7 @@ class CartPage extends StatelessWidget {
                       child: Text(
                         product.title,
                         style: TextStyle(
-                            color: Colors.black54,
+                            color: Colors.black,
                             fontFamily: 'Lato',
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
@@ -137,7 +138,7 @@ class CartPage extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(4),
                       child: Text(
-                        "Rs.${product.price}",
+                        "Rs.${product.price * product.count}",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 13.0,
@@ -147,65 +148,69 @@ class CartPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 8),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.remove,
-                              color: Colors.grey,
-                            ),
-                            onPressed: () {
-                              // model.decrement();
-                            },
-                          ),
-                        ),
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.blueGrey,
-                              width: 1,
-                            ),
-                          ),
-                          child: Container(
-                            width: 25,
-                            height: 25,
-                            // padding: EdgeInsets.all(8),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 8),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.green,
-                            ),
-                            onPressed: () {
-                              // model.increment();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
+              Flexible(
+                // width: width,
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(right: 8),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.remove,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                       model.updateItemCount(index, false);
+                      },
+                    ),
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: Colors.blueGrey,
+                        width: 1,
+                      ),
+                    ),
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      // padding: EdgeInsets.all(8),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          product.count.toString(),
+                          style: TextStyle(
+                            color: Colors.black,
+                              fontSize: 13, fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 8),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        model.updateItemCount(index, true);
+                      },
+                    ),
+                  ),
+                ],
+              ),)
             ],
           ),
+              
+              
           Divider()
         ],
       ),

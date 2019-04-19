@@ -3,7 +3,7 @@ import 'package:food_delivery/model/food_model.dart';
 
 class CartScopedModel extends Model {
   int _counter = 1;
-  bool _isLoginEnabled =false;
+  bool _isLoginEnabled = false;
 
   List<Food> _cartList = [];
 
@@ -32,6 +32,18 @@ class CartScopedModel extends Model {
   void addToCart(Food food) {
     _counter = 1;
     _cartList.add(food);
+    notifyListeners();
+  }
+
+  void updateItemCount(int index, bool increase) {
+    if (increase)
+      _cartList[index].count += 1;
+    else
+      _cartList[index].count -= 1;
+
+    if (_cartList[index].count == 0) {
+      _cartList.removeAt(index);
+    }
     notifyListeners();
   }
 }
