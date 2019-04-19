@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/hotel_model.dart';
 import 'package:food_delivery/pages/food_list_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -55,7 +56,7 @@ class HotelList extends StatelessWidget {
                 decoration: BoxDecoration(
                   // shape:BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(hotel.image),
+                    image: CachedNetworkImageProvider(hotel.image),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
