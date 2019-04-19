@@ -18,8 +18,8 @@ class FoodList extends StatelessWidget {
       stream: Firestore.instance
           .collection('food_list')
           // .where('tags',arrayContains: 'biriyani')
-          .where('hotel_id',isEqualTo: _id)
-          .where('category_id',isEqualTo: _catId)
+          .where('hotel_id', isEqualTo: _id)
+          .where('category_id', isEqualTo: _catId)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData)
@@ -27,16 +27,19 @@ class FoodList extends StatelessWidget {
             child: RefreshProgressIndicator(),
           );
         final int count = snapshot.data.documents.length;
-        return count > 0 ? ListView.builder(
-          shrinkWrap: true,
-          physics: ClampingScrollPhysics(),
-          itemCount: count,
-          itemBuilder: (_, int index) {
-            final DocumentSnapshot document = snapshot.data.documents[index];
-            var product = Food.fromJson(document.data);
-            return FoodAdapter(product);
-          },
-        ) :Center(child: Text('No items found.'),);
+        return count > 0
+            ? ListView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: count,
+                itemBuilder: (_, int index) {
+                  final DocumentSnapshot document =
+                      snapshot.data.documents[index];
+                  var product = Food.fromJson(document.data);
+                  return FoodAdapter(product);
+                },
+              )
+            : Text('No items found');
       },
     );
   }

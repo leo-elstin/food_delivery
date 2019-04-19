@@ -10,7 +10,10 @@ class HotelList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('hotel_list').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (!snapshot.hasData) return Text('Loading...');
+        if (!snapshot.hasData)
+          return Center(
+            child: Text('Loading...'),
+          );
         final int messageCount = snapshot.data.documents.length;
         return ListView.builder(
           shrinkWrap: true,
@@ -56,11 +59,10 @@ class HotelList extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(4),
-                    topRight: Radius.circular(4),
-                    bottomLeft: Radius.circular(4),
-                    bottomRight: Radius.circular(4)
-                  ),
+                      topLeft: Radius.circular(4),
+                      topRight: Radius.circular(4),
+                      bottomLeft: Radius.circular(4),
+                      bottomRight: Radius.circular(4)),
                 ),
               ),
               Container(
@@ -122,7 +124,9 @@ class HotelList extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          hotel.ratingCount != null ? ' (${hotel.ratingCount}+)' : '',
+                          hotel.ratingCount != null
+                              ? ' (${hotel.ratingCount}+)'
+                              : '',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
