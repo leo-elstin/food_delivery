@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 import 'package:food_delivery/widgets/login_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_delivery/model/food_model.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -31,21 +31,39 @@ class CartPage extends StatelessWidget {
             ),
             body: Stack(
               children: <Widget>[
-                model.cartItems.length != 0
-                    ? ListView.builder(
-                        itemBuilder: (buildcontext, i) {
-                          return Text('${model.cartItems[i].count}');
-                        },
-                        itemCount: model.cartItems.length,
-                      )
-                    : Center(
-                        child: Text('Your cart is empty',
-                            style: TextStyle(fontSize: 18)),
-                      ),
+                ListView(
+                  children: <Widget>[
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 8, top: 16),
+                    //   child: Text(
+                    //     'Zaki Resturant',
+                    //     style: TextStyle(color: Colors.brown, fontSize: 18),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   margin: EdgeInsets.all(8),
+                    //   child: Text('Cape Road, Nagercoil'),
+                    // ),
+                    model.cartItems.length != 0
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: ClampingScrollPhysics(),
+                            itemBuilder: (buildcontext, i) {
+                              var product = model.cartItems[i];
+                              return _buildCartAdapter(product);
+                            },
+                            itemCount: model.cartItems.length,
+                          )
+                        : Center(
+                            child: Text('Your cart is empty',
+                                style: TextStyle(fontSize: 18)),
+                          ),
+                  ],
+                ),
                 Align(
                   child: Container(
                     // decoration: BoxDecoration(),
-                     padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16),
                     height: 100,
                     width: double.infinity,
                     color: Colors.white,
@@ -54,7 +72,7 @@ class CartPage extends StatelessWidget {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: Container(
-                            margin: EdgeInsets.only(right: 14, bottom :8),
+                            margin: EdgeInsets.only(right: 14, bottom: 8),
                             child: OutlineButton(
                               color: Colors.green,
                               onPressed: () async {
@@ -79,5 +97,118 @@ class CartPage extends StatelessWidget {
                 )
               ],
             )));
+  }
+
+  Widget _buildCartAdapter(Food product) {
+    return InkWell(
+      // onTap: () => _showBottomSheet(context, food: product),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              // Container(
+              //   decoration: BoxDecoration(
+              //       image: DecorationImage(
+              //         fit: BoxFit.cover,
+              //         image: NetworkImage(product.image),
+              //       ),
+              //       shape: BoxShape.rectangle,
+              //       borderRadius: BorderRadius.all(Radius.circular(5))),
+              //   margin: EdgeInsets.only(left: 16, top: 5, right: 5, bottom: 5),
+              //   height: 50,
+              //   width: 50,
+              // ),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(4),
+                      child: Text(
+                        product.title,
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontFamily: 'Lato',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(4),
+                      child: Text(
+                        "Rs.${product.price}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13.0,
+                          fontFamily: 'Roboto',
+                          color: Color(0xFF212121),
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(right: 8),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.remove,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              // model.decrement();
+                            },
+                          ),
+                        ),
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: Colors.blueGrey,
+                              width: 1,
+                            ),
+                          ),
+                          child: Container(
+                            width: 25,
+                            height: 25,
+                            // padding: EdgeInsets.all(8),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                '2',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 8),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.green,
+                            ),
+                            onPressed: () {
+                              // model.increment();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Divider()
+        ],
+      ),
+    );
   }
 }
