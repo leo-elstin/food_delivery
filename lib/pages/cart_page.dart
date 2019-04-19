@@ -3,7 +3,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 import 'package:food_delivery/widgets/login_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:food_delivery/model/food_model.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

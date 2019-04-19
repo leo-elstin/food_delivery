@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -71,14 +72,13 @@ class _PhoneSignInSectionState extends State<AuthPage> {
             style: TextStyle(fontSize: 18),
             controller: _smsController,
             decoration: InputDecoration(
-              
               border: OutlineInputBorder(),
               labelText: 'Verification code',
             ),
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left : 32, right: 32),
+          margin: EdgeInsets.only(left: 32, right: 32),
           child: SizedBox(
             height: 45,
             width: MediaQuery.of(context).size.width,
@@ -86,10 +86,10 @@ class _PhoneSignInSectionState extends State<AuthPage> {
               onPressed: () async {
                 _signInWithPhoneNumber();
               },
-              child: const Text('Verify Now', style: TextStyle(
-                color: Colors.white,
-                fontSize: 18
-              ),),
+              child: const Text(
+                'Verify Now',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
           ),
         ),
@@ -158,6 +158,10 @@ class _PhoneSignInSectionState extends State<AuthPage> {
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(user.uid == currentUser.uid);
+
+    if (user != null) {
+      validateUser(user);
+    }
     setState(() {
       if (user != null) {
         _message = 'Successfully signed in, uid: ' + user.uid;
@@ -165,5 +169,28 @@ class _PhoneSignInSectionState extends State<AuthPage> {
         _message = 'Sign in failed';
       }
     });
+  }
+
+  void validateUser(FirebaseUser user) async {
+    Firestore.instance
+        .collection('user_list')
+        .document(user.uid)
+        .get()
+        .then((DocumentSnapshot ds) {
+      if (ds.exists) {
+      } else {
+        createUser(user);
+      }
+    });
+  }
+
+  void createUser(FirebaseUser user) async {
+     Firestore.instance
+        .collection('user_list')
+        .document(user.uid)
+        .setData({
+          'uid':user.uid,
+          'phone' : user.phoneNumber
+        });
   }
 }

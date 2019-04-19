@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return ScopedModel(
       model: CartScopedModel(),
       child: MaterialApp(
+        
         theme: ThemeData(
           brightness: Brightness.light,
           buttonColor: Colors.green,
