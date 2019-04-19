@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/model/food_model.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class FoodAdapter extends StatelessWidget {
   final Food product;
@@ -18,7 +19,7 @@ class FoodAdapter extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(product.image),
+                      image: CachedNetworkImageProvider(product.image),
                     ),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(5))),

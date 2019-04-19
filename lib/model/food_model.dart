@@ -9,7 +9,7 @@ class Food{
   String image;
   bool isVeg;
 
-  Food(this.id,this.count, this.categoryId,this.hotelId, this.title,this.description,this.price, this.image, this.isVeg);
+  Food({this.id,this.count, this.categoryId,this.hotelId, this.title,this.description,this.price, this.image, this.isVeg});
 
     Food.fromJson(Map<String, dynamic> json)
       : id = json['id'],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/model/food_model.dart';
 import 'package:food_delivery/adapter/food_adapter.dart';
-import 'package:food_delivery/model/hotel_model.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,8 +17,10 @@ class FoodList extends StatelessWidget {
       stream: Firestore.instance
           .collection('food_list')
           // .where('tags',arrayContains: 'biriyani')
+          // .orderBy('title', descending: false)
           .where('hotel_id', isEqualTo: _id)
           .where('category_id', isEqualTo: _catId)
+          
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData)
