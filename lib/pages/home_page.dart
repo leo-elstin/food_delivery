@@ -4,25 +4,38 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 
 class HomePage extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   iconTheme: IconThemeData(color: Colors.black),
-      //   brightness: Brightness.light,
-      //   backgroundColor: Colors.white,
-      //   title: Text(
-      //     'Food Kart',
-      //     style: TextStyle(color: Colors.black),
-      //   ),
-      //   actions: <Widget>[
-      //     _buildCartWidget(context),
-      //   ],
-      // ),
+      key: _scaffoldKey,
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              _scaffoldKey.currentState
+                  .showBottomSheet<Null>((BuildContext context) {
+                return Container(
+                    child:  Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                     Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Persistent header for bottom bar!',
+                          textAlign: TextAlign.left,
+                        )),
+                    Text(
+                      'Then here there will likely be some other content '
+                          'which will be displayed within the bottom bar',
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ));
+              });
+            },
+          ),
           Container(
             margin: EdgeInsets.all(10),
             child: Text(
