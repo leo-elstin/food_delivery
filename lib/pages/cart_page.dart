@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
-import 'package:food_delivery/widgets/login_sheet.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -12,35 +12,8 @@ class CartPage extends StatelessWidget {
     return ScopedModelDescendant<CartScopedModel>(
         builder: (context, child, model) => Scaffold(
             resizeToAvoidBottomPadding: true,
-            // appBar: AppBar(
-            //   actions: <Widget>[
-            //     IconButton(
-            //       icon: Icon(Icons.lock_open),
-            //       onPressed: () => FirebaseAuth.instance.signOut(),
-            //     )
-            //   ],
-            //   elevation: 0,
-            //   iconTheme: IconThemeData(color: Colors.black),
-            //   brightness: Brightness.light,
-            //   backgroundColor: Colors.white,
-            //   title: Text(
-            //     'My Foods',
-            //     style: TextStyle(color: Colors.black),
-            //   ),
-            // ),
             body: Stack(
               children: <Widget>[
-                    // Container(
-                    //   margin: EdgeInsets.only(left: 8, top: 16),
-                    //   child: Text(
-                    //     'Zaki Resturant',
-                    //     style: TextStyle(color: Colors.brown, fontSize: 18),
-                    //   ),
-                    // ),
-                    // Container(
-                    //   margin: EdgeInsets.all(8),
-                    //   child: Text('Cape Road, Nagercoil'),
-                    // ),
                     model.cartItems.length != 0
                         ? ListView.builder(
                             shrinkWrap: true,
@@ -53,9 +26,24 @@ class CartPage extends StatelessWidget {
                           )
                         : Align(
                           alignment: Alignment.center,
-                            child: Text('Your cart is empty',
-                                style: TextStyle(fontSize: 18)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                CachedNetworkImage(
+                                  imageUrl: 'https://firebasestorage.googleapis.com/v0/b/food-delivery-leo.appspot.com/o/Coffee.png?alt=media&token=4b2540b5-ada6-4dce-ae2e-5452754dedd9',
+                                ),
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                Text('IT SEEMS YOU HAVN"T ADDED ANY PRODUCTS YET !',style: TextStyle(
+                                  fontSize: 12 , color: Colors.black, fontWeight: FontWeight.bold
+                                ),)
+                              ],
+                            )
+                                
                           ),
+
                 // Align(
                 //   child: Container(
                 //     // decoration: BoxDecoration(),
