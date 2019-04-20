@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/model/category_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -29,29 +31,37 @@ class SearchPage extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.black38),
           ),
           StreamBuilder<QuerySnapshot>(
-              stream:
-                  Firestore.instance.collection('category_list').snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData)
-                  return Center(
-                    child: RefreshProgressIndicator(),
-                  );
-                final int count = snapshot.data.documents.length;
-                return count > 0
-                    ? GridView.builder(
-                        itemCount: count,
-                        gridDelegate:
-                            new SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Text(snapshot.data.documents[index]['title']);
-                        },
-                      )
-                    : Center(
-                        child: Text('data'),
-                      );
-              }),
+            stream: Firestore.instance.collection('category_list').snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData)
+                return Center(
+                  child: RefreshProgressIndicator(),
+                );
+              final int count = snapshot.data.documents.length;
+              print(count);
+              // return Container();
+              return count > 0
+                  ? GridView.builder(
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemCount: count,
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
+                      itemBuilder: (BuildContext context, int index) {
+                        final DocumentSnapshot document =
+                            snapshot.data.documents[index];
+                        // Map hotelMap = jsonDecode(document.data);
+                        var data = Category.fromJson(document.data);
+                        return _buildHotelCard(context, hotel: data);
+                      },
+                    )
+                  : Center(
+                      child: Text('data'),
+                    );
+            },
+          ),
         ],
       ),
     );
@@ -82,6 +92,44 @@ class SearchPage extends StatelessWidget {
       ),
       hintText: 'Search for food or resturants',
       // labelText: label,
+    );
+  }
+
+  Widget _buildHotelCard(BuildContext context, {hotel: Category}) {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      // padding: EdgeInsets.only(left: 8, right: 8),
+      child: Card(
+        elevation: 1,
+        child: InkWell(
+          splashColor: Colors.black26,
+          onTap: () {
+            // Navigator.of(context).push(
+            //   // MaterialPageRoute(
+            //   //   // builder: (BuildContext context) => FoodListPage(hotel),
+            //   // ),
+            // );
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            height: 188.2,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                colorFilter: ColorFilter.mode(Colors.black38, BlendMode.colorBurn),
+                image: CachedNetworkImageProvider(hotel.image),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
+            child: Text(
+              hotel.title.toString().toUpperCase(),
+              style: TextStyle(color: Colors.white,fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
