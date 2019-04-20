@@ -59,11 +59,7 @@ class HotelList extends StatelessWidget {
                     image: CachedNetworkImageProvider(hotel.image),
                     fit: BoxFit.cover,
                   ),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(4),
-                      topRight: Radius.circular(4),
-                      bottomLeft: Radius.circular(4),
-                      bottomRight: Radius.circular(4)),
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
                 ),
               ),
               Container(

@@ -12,22 +12,22 @@ class CartPage extends StatelessWidget {
     return ScopedModelDescendant<CartScopedModel>(
         builder: (context, child, model) => Scaffold(
             resizeToAvoidBottomPadding: true,
-            appBar: AppBar(
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.lock_open),
-                  onPressed: () => FirebaseAuth.instance.signOut(),
-                )
-              ],
-              elevation: 0,
-              iconTheme: IconThemeData(color: Colors.black),
-              brightness: Brightness.light,
-              backgroundColor: Colors.white,
-              title: Text(
-                'My Foods',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
+            // appBar: AppBar(
+            //   actions: <Widget>[
+            //     IconButton(
+            //       icon: Icon(Icons.lock_open),
+            //       onPressed: () => FirebaseAuth.instance.signOut(),
+            //     )
+            //   ],
+            //   elevation: 0,
+            //   iconTheme: IconThemeData(color: Colors.black),
+            //   brightness: Brightness.light,
+            //   backgroundColor: Colors.white,
+            //   title: Text(
+            //     'My Foods',
+            //     style: TextStyle(color: Colors.black),
+            //   ),
+            // ),
             body: Stack(
               children: <Widget>[
                     // Container(
@@ -56,41 +56,41 @@ class CartPage extends StatelessWidget {
                             child: Text('Your cart is empty',
                                 style: TextStyle(fontSize: 18)),
                           ),
-                Align(
-                  child: Container(
-                    // decoration: BoxDecoration(),
-                    padding: EdgeInsets.all(16),
-                    height: 100,
-                    width: double.infinity,
-                    color: Colors.white,
-                    child: Stack(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 14, bottom: 8),
-                            child: OutlineButton(
-                              color: Colors.green,
-                              onPressed: () async {
-                                FirebaseUser user = await _auth.currentUser();
-                                if (user == null)
-                                  openLoginSheet(buildcontext);
-                                else {
-                                  print('logged in');
-                                }
-                              },
-                              child: Text(
-                                'Checkout',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  alignment: Alignment.bottomCenter,
-                )
+                // Align(
+                //   child: Container(
+                //     // decoration: BoxDecoration(),
+                //     padding: EdgeInsets.all(16),
+                //     height: 100,
+                //     width: double.infinity,
+                //     color: Colors.white,
+                //     child: Stack(
+                //       children: <Widget>[
+                //         Align(
+                //           alignment: Alignment.bottomRight,
+                //           child: Container(
+                //             margin: EdgeInsets.only(right: 14, bottom: 8),
+                //             child: OutlineButton(
+                //               color: Colors.green,
+                //               onPressed: () async {
+                //                 FirebaseUser user = await _auth.currentUser();
+                //                 if (user == null)
+                //                   openLoginSheet(buildcontext);
+                //                 else {
+                //                   print('logged in');
+                //                 }
+                //               },
+                //               child: Text(
+                //                 'Checkout',
+                //                 style: TextStyle(color: Colors.black),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                //   alignment: Alignment.bottomCenter,
+                // )
               ],
             )));
   }

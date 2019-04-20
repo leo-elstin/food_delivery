@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'pages/cart_page.dart';
-import 'pages/map_page.dart';
-import 'pages/splash_page.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,7 +13,6 @@ class MyApp extends StatelessWidget {
     return ScopedModel(
       model: CartScopedModel(),
       child: MaterialApp(
-        
         theme: ThemeData(
           brightness: Brightness.light,
           buttonColor: Colors.green,

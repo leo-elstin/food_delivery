@@ -12,15 +12,17 @@ class FoodListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
+      floatingActionButton: FloatingActionButton.extended(
+        // shape: Border(),
+        label: Text('4 Items\nRs. 250 (View Cart)'),
+        icon: Icon( Icons.shopping_basket),
+        onPressed: () {
           Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) => AddFoodPage(hotel),
-              ),
-            );
+            MaterialPageRoute(
+              builder: (BuildContext context) => AddFoodPage(hotel),
+            ),
+          );
         },
-        child: Icon(Icons.add),
       ),
       appBar: AppBar(
         elevation: 0,
@@ -42,7 +44,9 @@ class FoodListPage extends StatelessWidget {
             context,
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('hotel_list/${hotel.id}/food_categories').snapshots(),
+            stream: Firestore.instance
+                .collection('hotel_list/${hotel.id}/food_categories')
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData)
@@ -50,7 +54,7 @@ class FoodListPage extends StatelessWidget {
                   child: RefreshProgressIndicator(),
                 );
               final int count = snapshot.data.documents.length;
-              
+
               return count > 0
                   ? ListView.builder(
                       shrinkWrap: true,
@@ -71,7 +75,7 @@ class FoodListPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            FoodList(hotel.hotel_id,document.data['id']),
+                            FoodList(hotel.hotel_id, document.data['id']),
                           ],
                         );
                       },
