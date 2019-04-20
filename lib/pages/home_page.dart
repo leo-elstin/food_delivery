@@ -3,6 +3,7 @@ import 'package:food_delivery/sub_pages/hotel_list.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 import 'cart_page.dart';
+import 'search_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
           HotelList()
         ],
       ),
-    Text('Search'),
+    SearchPage(),
     CartPage(),
     Text('Account')
   ];
