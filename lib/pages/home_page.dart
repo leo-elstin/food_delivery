@@ -16,18 +16,18 @@ class _HomePageState extends State<HomePage> {
   int _currentINdex = 0;
   final List _children = [
     ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(10),
-            child: Text(
-              'Nearby Hotels',
-              style: TextStyle(fontSize: 18),
-            ),
+      shrinkWrap: true,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.all(10),
+          child: Text(
+            'Nearby Hotels',
+            style: TextStyle(fontSize: 18),
           ),
-          HotelList()
-        ],
-      ),
+        ),
+        HotelList()
+      ],
+    ),
     SearchPage(),
     CartPage(),
     Text('Account')
@@ -35,11 +35,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: FloatingActionButton(
-      //   child: const Icon(Icons.search),
-      //   onPressed: () {},
-      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: _buildCartWidget(context),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentINdex,
         onTap: (value) {
@@ -52,6 +49,10 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
+              Icons.home,
+              color: Colors.black,
+            ),
+            activeIcon: Icon(
               Icons.home,
               color: Colors.blue,
             ),
@@ -101,16 +102,25 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: _children[_currentINdex],
-      // body: 
+      // body:
     );
   }
 
   Widget _buildCartWidget(BuildContext context) {
     return ScopedModelDescendant<CartScopedModel>(
         builder: (context, widget, model) {
-      return FloatingActionButton.extended(
-label: Text('$model'),
-      );
+     
+      return model.cartItems.length > 0
+          ? FloatingActionButton.extended(
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)
+            ),
+              label: Text(model.getCartDetails()),
+              icon: Icon(Icons.shopping_basket),
+              onPressed: () {},
+            )
+          : Container();
     });
   }
 }

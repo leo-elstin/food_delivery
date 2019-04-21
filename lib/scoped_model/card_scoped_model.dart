@@ -35,6 +35,16 @@ class CartScopedModel extends Model {
     notifyListeners();
   }
 
+  String getCartDetails() {
+     var total = 0;
+      _cartList.forEach((item) {
+        print(item.price.runtimeType);
+        print(item.price);
+        total += item.price;
+      });
+      return  '${_cartList.length} items\nRs.$total';
+  }
+
   void updateItemCount(int index, bool increase) {
     if (increase)
       _cartList[index].count += 1;
