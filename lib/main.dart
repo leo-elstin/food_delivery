@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
           ),
           primaryColor: Colors.deepPurple,
         ),
+        initialRoute: '/',
         routes: {
           '/': (BuildContext context) => HomePage(),
           '/cart': (BuildContext context) => CartPage(),
