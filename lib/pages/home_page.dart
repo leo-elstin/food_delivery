@@ -108,34 +108,8 @@ class _HomePageState extends State<HomePage> {
   Widget _buildCartWidget(BuildContext context) {
     return ScopedModelDescendant<CartScopedModel>(
         builder: (context, widget, model) {
-      return Container(
-        margin: EdgeInsets.only(right: 16),
-        child: Stack(
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                Navigator.pushNamed(context, '/cart');
-              },
-            ),
-            Container(
-              height: 35,
-              width: 60,
-              padding: EdgeInsets.only(right: 10),
-              alignment: Alignment.topRight,
-              child: Container(
-                width: 20,
-                height: 20,
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(2),
-                child: Text('${model.cartItems.length}'),
-                decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-              ),
-            )
-          ],
-        ),
+      return FloatingActionButton.extended(
+label: Text('$model'),
       );
     });
   }
