@@ -4,6 +4,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:food_delivery/scoped_model/card_scoped_model.dart';
 import 'cart_page.dart';
 import 'search_page.dart';
+import 'my_account.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     ),
     SearchPage(),
     CartPage(),
-    Text('Account')
+    MyAccountPage()
   ];
   @override
   Widget build(BuildContext context) {
