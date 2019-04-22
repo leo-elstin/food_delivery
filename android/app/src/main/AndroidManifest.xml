@@ -32,12 +32,13 @@
             <meta-data
                 android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
                 android:value="true" />
-            <meta-data android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyCUmDA-J4vowdOhDzqIvcuQhys8ulSolhg"/>
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+                    <meta-data android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyCUmDA-J4vowdOhDzqIvcuQhys8ulSolhg"/>
     </application>
 </manifest>
