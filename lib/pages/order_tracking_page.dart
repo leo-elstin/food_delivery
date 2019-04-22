@@ -91,8 +91,8 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
           print(value);
         },
         initialCameraPosition: const CameraPosition(
-          target: LatLng(-8.913025, 13.202462),
-          zoom: 7.0,
+          target:  LatLng(8.2637465, 77.2866609),
+          zoom: 16.0,
         ),
         polylines: Set<Polyline>.of(polylines.values),
         onMapCreated: (GoogleMapController controller) {
@@ -128,17 +128,17 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
   Future<void> _gymCameraPosition() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(-8.912014, 13.204197),
+      target: LatLng(8.2637465, 77.2866609),
       zoom: 18.5,
     )));
   }
 
   List<LatLng> _createGymPoints() {
     final List<LatLng> points = <LatLng>[];
-    points.add(_createLatLng(-8.911857, 13.203656));
-    points.add(_createLatLng(-8.911580, 13.204369));
-    points.add(_createLatLng(-8.912060, 13.204649));
-    points.add(_createLatLng(-8.912406, 13.204128));
+    points.add(_createLatLng(8.2637465, 77.2866609));
+    points.add(_createLatLng(8.2630653, 77.28699619999999));
+    points.add(_createLatLng(8.2673574, 77.2891867));
+    points.add(_createLatLng(8.2451474, 77.3161195));
     // points.add(_createLatLng(-8.911857, 13.203656));
     return points;
   }
