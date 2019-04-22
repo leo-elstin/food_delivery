@@ -40,9 +40,9 @@ class CartScopedModel extends Model {
       _cartList.forEach((item) {
         print(item.price.runtimeType);
         print(item.price);
-        total += item.price;
+        total += item.price * item.count;
       });
-      return  '${_cartList.length} items\nRs.$total';
+      return  '${_cartList.length} items\nRs.$total'  + ' (View Cart)';
   }
 
   void updateItemCount(int index, bool increase) {

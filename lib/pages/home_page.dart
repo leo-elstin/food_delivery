@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
     return ScopedModelDescendant<CartScopedModel>(
         builder: (context, widget, model) {
      
-      return model.cartItems.length > 0
+      return model.cartItems.length > 0 && _currentINdex == 0
           ? FloatingActionButton.extended(
             elevation: 8,
             shape: RoundedRectangleBorder(
@@ -118,7 +118,11 @@ class _HomePageState extends State<HomePage> {
             ),
               label: Text(model.getCartDetails()),
               icon: Icon(Icons.shopping_basket),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _currentINdex = 2;
+                });
+              },
             )
           : Container();
     });

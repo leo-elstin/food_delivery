@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/model/hotel_model.dart';
 import 'package:food_delivery/sub_pages/food_list.dart';
 import 'package:food_delivery/hotel_module/add_food.dart';
+import 'package:food_delivery/scoped_model/card_scoped_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 //Firebase Db
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,18 +14,7 @@ class FoodListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        // shape: Border(),
-        label: Text('4 Items\nRs. 250 (View Cart)'),
-        icon: Icon( Icons.shopping_basket),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) => AddFoodPage(hotel),
-            ),
-          );
-        },
-      ),
+      floatingActionButton: _buildCartWidget(context),
       appBar: AppBar(
         elevation: 0,
         iconTheme: IconThemeData(
@@ -164,5 +155,27 @@ class FoodListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildCartWidget(BuildContext context) {
+    return ScopedModelDescendant<CartScopedModel>(
+        builder: (context, widget, model) {
+      return model.cartItems.length > 0
+          ? FloatingActionButton.extended(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              label: Text(model.getCartDetails()),
+              icon: Icon(Icons.shopping_basket),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => AddFoodPage(hotel),
+                  ),
+                );x
+              },
+            )
+          : Container();
+    });
   }
 }
