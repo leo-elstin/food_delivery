@@ -172,7 +172,7 @@ class FoodListPage extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (BuildContext context) => AddFoodPage(hotel),
                   ),
-                );x
+                );
               },
             )
           : Container();
