@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:io' show Platform;
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderTrackingPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
 
   Completer<GoogleMapController> _controller = Completer();
   Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   int _polylineIdCounter = 1;
   PolylineId selectedPolyline;
 
@@ -62,6 +65,41 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     // this._controller = controller;
+    fetchData();
+  }
+
+  void fetchData() {
+    MarkerId markerId = MarkerId("value");
+
+    final Marker marker = Marker(
+      markerId: markerId,
+      // icon: _setM,
+      position: LatLng(8.266300319044133, 77.29164976626635),
+      // infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
+      onTap: () {
+        // _onMarkerTapped(markerId);
+      },
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
+
+    _getAssetIcon(context).then(
+      (BitmapDescriptor icon) {
+        _setMarkerIcon(icon);
+      },
+    );
+    List<LatLng> latlng = [];
+
+    Firestore.instance
+        .collection('location_test')
+        .snapshots()
+        .listen((onData) => onData.documents.forEach((f) {
+              GeoPoint geo = f.data['lat_lng'];
+              var data = LatLng(geo.latitude, geo.longitude);
+              latlng.add(data);
+              _addPolyLines(latlng);
+            }));
   }
 
   @override
@@ -77,25 +115,35 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool iOSorNotSelected = Platform.isIOS || (selectedPolyline == null);
-
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _addGymPoly();
-        },
-      ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        if (MarkerId("value") == null) {
+          return;
+        }
+
+        final Marker marker = markers[MarkerId("value")];
+        setState(() {
+          markers[MarkerId("value")] = marker.copyWith(
+            positionParam: LatLng(8.264000988351677, 77.29503806680441),
+            rotationParam: 30
+          );
+        });
+        _newCamPosition(LatLng(8.263287297268167, 77.29503806680441));
+      }),
       body: GoogleMap(
         myLocationEnabled: true,
+        markers: Set<Marker>.of(markers.values),
         onTap: (value) {
-          print(value);
+          // Firestore.instance.collection('location_test').document()
+          // .setData({'lat_lng' : GeoPoint(value.latitude, value.longitude)});
         },
         initialCameraPosition: const CameraPosition(
-          target:  LatLng(8.2637465, 77.2866609),
+          target: LatLng(8.2637465, 77.2866609),
           zoom: 16.0,
         ),
         polylines: Set<Polyline>.of(polylines.values),
         onMapCreated: (GoogleMapController controller) {
+          fetchData();
           _controller.complete(controller);
           //_initCameraPosition();
         },
@@ -112,9 +160,31 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
     final Polyline polyline = Polyline(
       polylineId: polylineId,
       consumeTapEvents: true,
-      color: Colors.black,
-      width: 5,
+      color: Colors.blue,
+      width: 15,
       points: _createGymPoints(),
+      onTap: () {
+        _onPolylineTapped(polylineId);
+      },
+    );
+
+    setState(() {
+      polylines[polylineId] = polyline;
+    });
+  }
+
+  void _addPolyLines(List<LatLng> list) {
+    _gymCameraPosition();
+    final String polylineIdVal = 'polyline_id_$_polylineIdCounter';
+    _polylineIdCounter++;
+    final PolylineId polylineId = PolylineId(polylineIdVal);
+
+    final Polyline polyline = Polyline(
+      polylineId: polylineId,
+      consumeTapEvents: true,
+      color: Colors.blue,
+      width: 10,
+      points: list,
       onTap: () {
         _onPolylineTapped(polylineId);
       },
@@ -128,8 +198,16 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
   Future<void> _gymCameraPosition() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(8.2637465, 77.2866609),
-      zoom: 18.5,
+      target: LatLng(8.266300319044133, 77.29164976626635),
+      zoom: 15,
+    )));
+  }
+
+  Future<void> _newCamPosition(LatLng latlng) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: latlng,
+      zoom: 15,
     )));
   }
 
@@ -145,5 +223,38 @@ class PlacePolylineBodyState extends State<OrderTrackingPage> {
 
   LatLng _createLatLng(double lat, double lng) {
     return LatLng(lat, lng);
+  }
+
+  void _setMarkerIcon(BitmapDescriptor assetIcon) {
+    if (MarkerId("value") == null) {
+      return;
+    }
+
+    final Marker marker = markers[MarkerId("value")];
+    setState(() {
+      markers[MarkerId("value")] = marker.copyWith(
+        iconParam: assetIcon,
+        rotationParam: 30,
+        anchorParam: Offset(.1, .1)
+      );
+    });
+  }
+
+  Future<BitmapDescriptor> _getAssetIcon(BuildContext context) async {
+    final Completer<BitmapDescriptor> bitmapIcon =
+        Completer<BitmapDescriptor>();
+    final ImageConfiguration config = createLocalImageConfiguration(context);
+
+    const AssetImage('assets/red_square.png')
+        .resolve(config)
+        .addListener((ImageInfo image, bool sync) async {
+      final ByteData bytes =
+          await image.image.toByteData(format: ImageByteFormat.png);
+      final BitmapDescriptor bitmap =
+          BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+      bitmapIcon.complete(bitmap);
+    });
+
+    return await bitmapIcon.future;
   }
 }
